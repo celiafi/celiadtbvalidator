@@ -110,48 +110,48 @@ or rename the current config.txt file.
 #### Daisy production example
 1. Record book as usual.
 2. Regenerate book using book id as file name prefix (optional)
-3. Change dc:identifier on (regenerated) books ncc.html to book id
-   (optional - dc:identifier is used as mp3 encoded books foldername
-   (if empty folder is named as 'mp3'))
-4. Run validation on (regenerated) book using folowing configurations
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 1
-    target_kbps = 64 (or some other value)
+3. Change dc:identifier on (regenerated) books ncc.html to book id  
+   (optional - dc:identifier is used as mp3 encoded books foldername  
+   (if empty folder is named as 'mp3'))  
+4. Run validation on (regenerated) book using folowing configurations  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 1  
+    target_kbps = 64 (or some other value)  
 5. Examine validation report
-6. Validator ask if you wish to continue with audio encoding
-    if there are errors -> answer no and fix them on original book and do steps 2-5 again
-    if no errors are found -> answer 'y'
+6. Validator ask if you wish to continue with audio encoding  
+    if there are errors -> answer no and fix them on original book and do steps 2-5 again  
+    if no errors are found -> answer 'y'  
 7. After encoding the encoded audio book is in output-folders
 
 
 #### Daisy and audio validation example
-1. Run validation on any Daisy book using folowing configurations
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 0
-2. Examine validation report
+1. Run validation on any Daisy book using folowing configurations  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 0  
+2. Examine validation report  
     if there are errors -> fix/report them etc.
 
 
 #### Mp3 playlist audiobook audio validation
 1. Record audio and generate playlist as usual
-2. Run validation on folder containing audio files using folowing configurations:
-    audio_validation = 1
-    daisy_validation = 0
-    encode_audio = 0 (optional -> disabling daisy validations automatically disables audio encoding)
-3. Examine validator report
+2. Run validation on folder containing audio files using folowing configurations:  
+    audio_validation = 1  
+    daisy_validation = 0  
+    encode_audio = 0 (optional -> disabling daisy validations automatically disables audio encoding)  
+3. Examine validator report  
     if there are errors -> fix errors and do steps 1-3 again
 
 
 #### Batch validate all daisy books in a folder
 1. Put all books in one folder
-2. Use folowing configurations:
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 0
-3. Run following Powershell command:
-    $dtbs = ls -Directory -Path PATHTOFOLDER | % { $_.FullName } ; foreach ($dtb in $dtbs) {python PATHTOVALIDATOR\celia_dtb_validator.py -i $dtb -r PATHTOFOLDER}
+2. Use folowing configurations:  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 0  
+3. Run following Powershell command:  
+    $dtbs = ls -Directory -Path PATHTOFOLDER | % { $_.FullName } ; foreach ($dtb in $dtbs) {python PATHTOVALIDATOR\celia_dtb_validator.py -i $dtb -r PATHTOFOLDER}  
 4. Reports are opened into default webbrowser in tabs and stored into PATHTOFOLDER.
 
 ## License
