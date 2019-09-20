@@ -60,13 +60,13 @@ Celia DTB Validator can be run from command line or using a minimalistic GUI.
 
 These are the key components:
 
-**Input path:**
-Path to the folder containing book to be validated
-**Output path:**
-Path to folder where encoded book is placed (if audio encoding is enabled)
-**Report path:**
-Path to folder where validation report is stored
-**Config file:**
+**Input path:**  
+Path to the folder containing book to be validated  
+**Output path:**  
+Path to folder where encoded book is placed (if audio encoding is enabled)  
+**Report path:**  
+Path to folder where validation report is stored  
+**Config file:**  
 File where all variables (for example valid LUFS values etc.) can be set and where audio and daisy validations and audio encoding can be enabled/disabled. Config file is located on the same folder as the file celia_dtb_validator.py.
 
 ### Graphical user interface
