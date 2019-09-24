@@ -19,7 +19,7 @@ lufs_max = -17
 pkdb_min = -2
 pkdb_max = 0
 tpkdb_min = -2
-tpkdb_max = 0
+tpkdb_max = 1
 snr_min = 45
 
 # Silence db determines what level is to be considered silence/sound.
