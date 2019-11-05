@@ -269,6 +269,10 @@ class CeliaDTBValidator:
                 errors.append("No ISBN found in metadata!")
             if audiobook.ncc_producer == "":
                 errors.append("Recording place not defined in metadata!")
+                
+            if len(audiobook.pagemark_errors) > 0:
+                for err in audiobook.pagemark_errors:
+                    errors.append("Pagemark at first phrase of heading '" + err[0] + "' (file " + err[1] + ")!")
 
             if len(audiobook.daisy_validation_errors) > 0:
                 errors.append("\n    ERRORS REPORTED BY DAISY VALIDATOR:\n")
