@@ -40,7 +40,7 @@ class AudioBook:
             i += 1
             f_info = FileScrutinizer.find_fname_ftype(f)
             print("Processing file " + f_info[0] + "." + f_info[1] + " (" + str(i) + "/" + str(len(files_in_folder)) + ")")
-            if (f_info[1] == "wav" or f_info[1] == "mp3") and not skip_audio_checks:
+            if (f_info[1].lower() == "wav" or f_info[1].lower() == "mp3") and not skip_audio_checks:
                 new_file = AudioFile(f, f_info[0], f_info[1])
             else:
                 new_file = GenericFile(f, f_info[0], f_info[1])
