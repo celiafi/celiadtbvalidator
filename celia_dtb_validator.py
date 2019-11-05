@@ -196,7 +196,7 @@ class CeliaDTBValidator:
                 errors.append(
                     "Unexpectedly long silence found at end of file " + audio_f.name + "." + audio_f.f_type + "!")
             if len(audio_f.mid_silences) > 0:
-                errors.append("Unexpected silence found form file " + audio_f.name + "." + audio_f.f_type + "!")
+                errors.append("Unexpected silence found from file " + audio_f.name + "." + audio_f.f_type + "!")
                 for mid_silence_err in audio_f.mid_silences:
                     errors.append("    " + mid_silence_err)
 
