@@ -58,7 +58,7 @@ class DaisyScrutinizer:
         for f in files:
             if f.f_type == "smil" and f.name != "master":
                 smil_count += 1
-            elif f.f_type == "wav" or f.f_type == "mp3":
+            elif f.f_type.lower() == "wav" or f.f_type.lower() == "mp3":
                 audio_files_count += 1
             elif f.name == "ncc":
                 ncc_count += 1
