@@ -38,7 +38,7 @@ class ReportGenerator:
         validation_report.write("<h2>Validation summary:</h2>\n\n")
 
         if len(critical_errors) > 0:
-            validation_report.write("<h3>" + str(len(critical_errors)) + " critical errors found:</h3>\n")
+            validation_report.write("<h3>Critical errors:</h3>\n")
 
             validation_report.write("<pre style=""font-size:18px;"">\n")
 
@@ -47,7 +47,7 @@ class ReportGenerator:
             validation_report.write("</pre>\n\n")
 
         if len(errors) > 0:
-            validation_report.write("<h3>" + str(len(errors)) + " errors found:</h3>\n")
+            validation_report.write("<h3>Errors:</h3>\n")
 
             validation_report.write("<pre style=""font-size:18px;"">\n")
 
@@ -56,7 +56,7 @@ class ReportGenerator:
             validation_report.write("</pre>\n\n")
 
         if len(warnings) > 0:
-            validation_report.write("<h3>" + str(len(warnings)) + " warnings found:</h3>\n")
+            validation_report.write("<h3>Warnings:</h3>\n")
 
             validation_report.write("<pre style=""font-size:18px;"">\n")
 
