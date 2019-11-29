@@ -293,6 +293,13 @@ class CeliaDTBValidator:
             skip_audio_encoding = True
 
         if not skip_daisy_checks and not skip_audio_encoding:
+            if audiobook.dc_identifier == "":
+                print("Preparing to encode audiobook to output folder " + output_location + "/mp3 ...")
+                print("  NOTE! If folder exist, timestamp is added to folder name.")
+            else:
+                print("Preparing to encode audiobook to output folder " + output_location 
+                      + "/" + audiobook.dc_identifier + " ...")
+                print("  NOTE! If folder exist, timestamp is added to folder name.")
             ans = input("Continue with encoding of audio? (y/n) (default: No)\n")
             if ans.lower() == "y":
                 ncc_path = pathlib.Path.joinpath(pathlib.Path(audiobook.path), "ncc.html")
