@@ -151,8 +151,8 @@ class CeliaDTBValidator:
             kbps_max = 48
 
         time_stamp = datetime.datetime.today().strftime('%Y-%m-%d-%H%M%S')
-        report_out_path = pathlib.Path.joinpath(pathlib.Path(report_location), "dtb_validation_report_"
-                                                + time_stamp + "_" + audiobook.dc_identifier + ".html")
+        report_out_path = pathlib.Path.joinpath(pathlib.Path(report_location), audiobook.dc_identifier 
+                                                + "_dtb_validation_report_" + time_stamp + ".html")
         print("Checking dtb...")
         critical_errors = []
         errors = []
