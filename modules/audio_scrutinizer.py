@@ -6,15 +6,12 @@ from modules.config_getter import ConfigGetter
 
 def get_peak(raw_output):
     peak = 0.0
-    for line in raw_output:
-        # print(line)
-        if re.search(r"Pk lev dB *", line):
-            line = re.sub(r" *Pk lev dB *", "", line)
-            line = re.sub(r" dB.+", "", line)
-            if line == "-1.#J":
-                # print("-1.#J")
-                line = "-99999.0"
-            peak = float(line)
+    for line in reversed(raw_output):
+        if re.search(r".+Peak", line):
+            line = re.sub(r".+Peak: *", "", line)
+            line = re.sub(r" dBFS", "", line)
+            peak = round(float(line),2)
+            break
     return peak
 
 
@@ -115,9 +112,10 @@ class AudioScrutinizer:
         start_silence_max = ConfigGetter.get_configs("start_silence_max")
         if start_silence_max == "":
             start_silence_max = "0:01.001"
-        start_silence_cmd = 'cmd /c sox "' + f_path + '" -n trim 0 ' + start_silence_max + ' stats 2>&1'
-
-        raw_output = ExternalProgramCaller.run_external_command(start_silence_cmd).splitlines()
+        
+        start_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -ss 00:00:00 -nostats -i "' + f_path + '" -to 00:0' + start_silence_max + ' -filter_complex ebur128=peak=true -f null - 2>&1'
+        
+        raw_output = ExternalProgramCaller.run_external_command(start_silence_max_ffmpeg_cmd).splitlines()
         if get_peak(raw_output) < silence_db:
             no_start_silence = False
 
@@ -128,9 +126,10 @@ class AudioScrutinizer:
         end_silence_min = ConfigGetter.get_configs("end_silence_min")
         if end_silence_min == "":
             end_silence_min = "0:01.801"
-        end_silence_cmd = 'cmd /c sox "' + f_path + '" -n reverse trim 0 ' + end_silence_min + ' reverse stats 2>&1'
 
-        raw_output = ExternalProgramCaller.run_external_command(end_silence_cmd).splitlines()
+        end_silence_min_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_min + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+
+        raw_output = ExternalProgramCaller.run_external_command(end_silence_min_ffmpeg_cmd).splitlines()
 
         if get_peak(raw_output) > silence_db:
             silence_at_end = False
@@ -142,9 +141,10 @@ class AudioScrutinizer:
         end_silence_max = ConfigGetter.get_configs("end_silence_max")
         if end_silence_max == "":
             end_silence_max = "0:15.001"
-        end_silence_max_cmd = 'cmd /c sox "' + f_path + '" -n reverse trim 0 ' + end_silence_max + ' reverse stats 2>&1'
 
-        raw_output = ExternalProgramCaller.run_external_command(end_silence_max_cmd).splitlines()
+        end_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_max + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+
+        raw_output = ExternalProgramCaller.run_external_command(end_silence_max_ffmpeg_cmd).splitlines()
 
         if get_peak(raw_output) < silence_db:
             no_unexpected_silence_at_end = False
