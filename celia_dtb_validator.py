@@ -13,7 +13,7 @@ from modules.daisy_scrutinizer import DaisyScrutinizer
 
 
 def get_version_num():
-    return "v. 0.9.2.2."
+    return "v. 0.9.3beta1"
 
 
 def get_args(args):
@@ -321,9 +321,9 @@ class CeliaDTBValidator:
 # MAIN...
 if __name__ == "__main__":
 
-    if which("sox") is None:
-        input("sox not found from PATH! Please install sox before running validator.")
-        sys.exit()
+    #if which("sox") is None:
+    #    input("sox not found from PATH! Please install sox before running validator.")
+    #    sys.exit()
     if which("ffmpeg") is None:
         input("ffmpeg not found from PATH! Please install ffmpeg before running validator.")
         sys.exit()

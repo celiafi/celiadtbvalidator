@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 import celia_dtb_validator
 import os
+import sys
 import pathlib
 from modules import config_getter
 import tkinter.messagebox
@@ -41,9 +42,9 @@ def open_manua():
 # MAIN...
 if __name__ == "__main__":
 
-    if which("sox") is None:
-        input("sox not found from PATH! Please install sox before running validator.")
-        sys.exit()
+    #if which("sox") is None:
+    #    input("sox not found from PATH! Please install sox before running validator.")
+    #    sys.exit()
     if which("ffmpeg") is None:
         input("ffmpeg not found from PATH! Please install ffmpeg before running validator.")
         sys.exit()
