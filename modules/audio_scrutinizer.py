@@ -34,88 +34,58 @@ class AudioScrutinizer:
         snr = 0.0
         kbps = 0.0
 
-        # Sox & ffmpeg
-        sox_cmd = 'cmd /c sox "' + f_path + '" -n stats 2>&1'
-        ffmpeg_cmd = 'cmd /c ffmpeg -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+        # general stats with ffmpeg
+        ffmpeg_cmd_lufs = 'cmd /c ffmpeg -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+        ffmpeg_cmd_stats = 'cmd /c ffmpeg -i "' + f_path + '" -af astats -f null - 2>&1'
 
-        raw_output = ExternalProgramCaller.run_external_command(sox_cmd).splitlines()
-        raw_output += ExternalProgramCaller.run_external_command(ffmpeg_cmd).splitlines()
+        raw_output_lufs = ExternalProgramCaller.run_external_command(ffmpeg_cmd_lufs).splitlines()
+        raw_output_stats = ExternalProgramCaller.run_external_command(ffmpeg_cmd_stats).splitlines()
 
-        snr_tmp_a = 0.0
-        snr_tmp_b = 0.0
 
-        for line in raw_output:
-            # print(line)
 
-            # lufs (ffmpeg) example:
-            # I:         -14.8 LUFS
+        rms_trough_db = 0.0
+        rms_peak_db = 0.0
 
-            # NOTE! ffmpeg output has 2 lufs values, the one at the end of the output is the right one.
+        for line in reversed(raw_output_lufs):
+            if re.search(r".+Peak", line):
+                line = re.sub(r".+Peak: *", "", line)
+                tpkdb = float(re.sub(r" dBFS", "", line))
+            if re.search(r" *I: .+ LUFS", line):
+                line = re.sub(r" *I: *", "", line) 
+                line = re.sub(r" LUFS", "", line)
+                lufs = round(float(line), 2)
+                break
 
-            if re.search(r"^ *I:", line):
-                # print(line)
-                line = re.sub(r" *I: *", "", line)
-                line = re.sub(r" LU.+", "", line)
-                lufs = float(line)
-
-            # Bitrate (ffmpeg) example:
-            # Duration: 00:00:09.23, start: 0.000000, bitrate: 48 kb/s
-
-            elif re.search(r".+bitrate:", line):
+        for line in raw_output_lufs:
+            if re.search(r".+bitrate:", line):
                 line = re.sub(r".+bitrate: *", r"", line)
                 line = re.sub(r" kb.+", r"", line)
                 kbps = float(line)
+                break
+            
+        for line in reversed(raw_output_stats):
+            if re.search(r".+Peak level dB", line):
+                line = re.sub(r".+Peak level dB: ", "", line)
+                pkdb = round(float(line),2)
+                break
+            if re.search(r".+RMS trough dB", line):
+                line = re.sub(r".+RMS trough dB: ", "", line)
+                rms_trough_db = round(float(line),2)
 
-            # Peak levels
-
-            # tpkdb (ffmpeg) example:
-            # Peak:       -2.1 dBFS
-
-            # NOTE! ffmpeg output has 2 Peak values, the one at the end of the output is the right one.
-            # The first one is always "-inf" and although this value can be used as value for float,
-            # it has been replaced with value -99999.0. It should never be the case that peak level is
-            # this value once entire output is processed. And even if a file has no sound at all
-            # this value will be close enough for the purpose of this program as it just means that
-            # there is no sound at all in the file.
-
-            elif re.search(r"Peak: *", line):
-                line = re.sub(r" *Peak: *", "", line)
-                line = re.sub(r" dB.+", "", line)
-                if line == "-inf":
-                    tpkdb = -99999.0
-                else:
-                    tpkdb = float(line)
-                # print(self.tpkdb)
-
-            # pkdb (sox) example:
-            # Pk lev dB      -2.14
-
-            elif re.search(r"Pk lev dB *", line):
-                line = re.sub(r" *Pk lev dB *", "", line)
-                line = re.sub(r" dB.+", "", line)
-                pkdb = float(line)
-
+            if re.search(r".+RMS peak dB", line):
+                line = re.sub(r".+RMS peak dB: ", "", line)
+                rms_peak_db = round(float(line),2)
+            
+        
+        
+        
             # snr (sox) example:
             # a: RMS Pk dB      -9.04
             # b: RMS Tr dB     -91.69
             # -> snr = a - b
 
-            # NOTE! If audio has absolute silence, sox gives value as Tr dB value as '-1.#J' meaning infinite (lowest
-            # volume level minus infinite, 0 - infinite == infinite). In order to get some kind of snr result,
-            # this value has been changed to a very small float value (-99999.0). This ofcourse IS NOT the real snr
-            # value, but it is good enough for the purpose of this program, as it just means the snr is ridiculously
-            # HIGH witch is ok, as the point is to check that it is not too LOW.
 
-            elif re.search(r"RMS Pk dB", line):
-                line = re.sub(r"RMS Pk dB *", "", line)
-                snr_tmp_a = float(line)
-            elif re.search(r"RMS Tr dB", line):
-                line = re.sub(r"RMS Tr dB *", "", line)
-                if re.search("-1.#J", line):
-                    line = "-99999.0"
-                snr_tmp_b = float(line)
-
-        snr = snr_tmp_a - snr_tmp_b
+        snr = rms_peak_db - rms_trough_db
 
         stats.append(lufs)
         stats.append(pkdb)
