@@ -208,7 +208,7 @@ class AudioScrutinizer:
 
         lufs_flux = []
         i = 1
-        while i < len(audio_files) - 1:
+        while i < len(audio_files):
             audio_f_comp = audio_files[i - 1]
             if (audio_f_comp.lufs * -1) - (audio_files[i].lufs * -1) > (1 * max_volume_level_flux) \
                     or (audio_f_comp.lufs * -1) - (audio_files[i].lufs * -1) < (-1 * max_volume_level_flux):
