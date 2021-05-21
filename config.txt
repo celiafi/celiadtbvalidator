@@ -1,7 +1,8 @@
 # GENERAL SETTINGS
-# To disable audio or daisy validation set value to 0.
+# To disable set value to 0, to enable set to 1.
 audio_validation = 1
 daisy_validation = 1
+open_reports_after_validation = 0
 
 
 # AUDIO ENCODING SETTINGS

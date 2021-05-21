@@ -286,7 +286,8 @@ class CeliaDTBValidator:
 
         ReportGenerator.write_report(audiobook, report_out_path, critical_errors, errors, warnings)
 
-        webbrowser.open(str(report_out_path))
+        if ConfigGetter.get_configs("open_reports_after_validation") == "1":
+            webbrowser.open(str(report_out_path))
 
         skip_audio_encoding = False
         if not ConfigGetter.get_configs("encode_audio") == "1":
