@@ -28,11 +28,10 @@ The Celia DTB Validator analyses files for their digital peak level, true peak (
 
 ## Installation
 
-Celia DTB Validator is designed to work on Windows 10, using Python 3.5.2. (newer python3 versions should also work)
+Celia DTB Validator is designed to work on Windows 10, using Python 3.8.7. (newer python3 versions should also work)
 
 For audio and Daisy validation it is required that following programs are also installed:
-- SoX v14.4.2
-- ffmpeg 2.2.2
+- FFmpeg 4.4
 - Daisy Pipeline 1 v. 20111215.
 
 Other version might also work, but have not been tested and might not work.
@@ -40,15 +39,19 @@ If validation is done for audio only, Daisy Pipeline is not required.
 Please refer to the documentation of the programs mentioned for more information
 on installation and usage.
 
-Sox and ffmpeg must be in in PATH, ie. so that they work with commands 'sox' & 'ffmpeg'.
+Sox and FFmpeg must be in in PATH, ie. so that it works with command 'ffmpeg'.
 
-It is also to be noted that sox or ffmpeg might also require aditional modules to
+It is also to be noted that FFmpeg might also require aditional modules to
 be installed in order for them to be able to work with files in mp3 format.
-Please refer to documentation provided by sox & ffmpeg for more information.
+Please refer to documentation provided by FFmpeg for more information.
+
+Also should be noted, that pipeline uses Java, so that must also be installed,
+if validating Daisy books.
 
 For installation of Celia DTB Validator the files can be placed in any location.
 Celia DTB Validator is written in pure Python3 and does not require any additional
-Python modules to run. Usage of virtualenv is recomended but not required.
+Python modules to run. Usage of virtualenv is recomended but not required as there
+are no additional third party modules needed to install.
 
 For basic usage use validator_gui.py to run Celia DTB Validator GUI.
 
