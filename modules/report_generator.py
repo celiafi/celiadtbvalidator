@@ -132,7 +132,7 @@ class ReportGenerator:
 
         validation_report.write("<h2>END OF VALIDATION REPORT</h2>\n\n")
 
-        validation_report.write('<p style=" position: absolute; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">CeliaDTBValidator v. 0.9.3beta1</p>	\n')
+        validation_report.write('<p style="width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">CeliaDTBValidator v. 0.9.3beta1</p>	\n')
 
         validation_report.write("</body>\n"
                                 + "</html>")
