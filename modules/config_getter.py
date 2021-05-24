@@ -7,9 +7,10 @@ def generate_configs():
     config_file = pathlib.Path.joinpath(pathlib.Path(__file__).parents[1], "config.txt")
     new_config_file = open(str(config_file), "x")
     configs = ["# GENERAL SETTINGS",
-               "# To disable audio or daisy validation set value to 0.",
+               "# To disable set value to 0, to enable set to 1.",
                "audio_validation = 1",
                "daisy_validation = 1",
+               "open_reports_after_validation = 1",
                "",
                "",
                "# AUDIO ENCODING SETTINGS",
