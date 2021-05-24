@@ -19,6 +19,7 @@ class AudioScrutinizer:
 
     @staticmethod
     def get_stats(f_path):
+        print("     Calculating lufs & peak levels")
 
         # f_path = str(pathlib.Path(f_path).absolute())
         # input(f_path)
@@ -94,6 +95,7 @@ class AudioScrutinizer:
 
     @staticmethod
     def find_silence(f_path):
+        print("     Checking for unexpected silences at start, end or middle of file")
         silence_db = ConfigGetter.get_configs("silence_db")
         if silence_db == "":
             silence_db = "-26"
