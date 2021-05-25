@@ -1,12 +1,25 @@
 from modules.audio_file import AudioFile
 from modules.config_getter import ConfigGetter
+from modules.external_program_caller import ExternalProgramCaller
+import sys
+import re
 
+def get_system_info():
+    python_version_info = "Python " + str(sys.version_info[0]) + "." + str(sys.version_info[1])+ "." + str(sys.version_info[2])
+    ffmpeg_cmd_version = 'cmd /c ffmpeg -version'
+
+    raw_output_ffmpeg = ExternalProgramCaller.run_external_command(ffmpeg_cmd_version).splitlines()
+    fffmpeg_version = re.sub(r' Copyright.+', '', raw_output_ffmpeg[0])
+    system_info_list = [python_version_info, fffmpeg_version]
+
+    return system_info_list
 
 class ReportGenerator:
 
     @staticmethod
     def write_report(audiobook, report_out_path, critical_errors, errors, warnings):
         validation_report = open(str(report_out_path), "x", encoding="utf-8")
+        program_versions = get_system_info()
         skip_daisy_checks = False
         if not ConfigGetter.get_configs("daisy_validation") == "1":
             skip_daisy_checks = True
@@ -132,7 +145,8 @@ class ReportGenerator:
 
         validation_report.write("<h2>END OF VALIDATION REPORT</h2>\n\n")
 
-        validation_report.write('<p style="width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">CeliaDTBValidator v. 0.9.3beta1</p>	\n')
+        validation_report.write('<p style="width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">')
+        validation_report.write("CeliaDTBValidator v. 0.9.3beta1 (" + program_versions[0] + ", with " + program_versions[1] + ")</p>	\n")
 
         validation_report.write("</body>\n"
                                 + "</html>")
