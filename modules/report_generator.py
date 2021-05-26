@@ -7,10 +7,15 @@ import re
 def get_system_info():
     python_version_info = "Python " + str(sys.version_info[0]) + "." + str(sys.version_info[1])+ "." + str(sys.version_info[2])
     ffmpeg_cmd_version = 'cmd /c ffmpeg -version'
+    java_cmd_version = 'cmd /c java -version'
+    pipeline_version = re.sub(r".+org\.daisy\.pipeline_", "Daisy Pipeline v. ", ConfigGetter.get_configs("pipeline_path"))
 
     raw_output_ffmpeg = ExternalProgramCaller.run_external_command(ffmpeg_cmd_version).splitlines()
-    fffmpeg_version = re.sub(r' Copyright.+', '', raw_output_ffmpeg[0])
-    system_info_list = [python_version_info, fffmpeg_version]
+    ffmpeg_version = re.sub(r' Copyright.+', '', raw_output_ffmpeg[0])
+    ffmpeg_version = re.sub(r'ffmpeg', 'FFmpeg', ffmpeg_version)
+    raw_output_java = ExternalProgramCaller.run_external_command(java_cmd_version).splitlines()
+    java_version = "Java " + re.sub(r'"', '', raw_output_java[0])
+    system_info_list = [python_version_info, ffmpeg_version, java_version, pipeline_version]
 
     return system_info_list
 
@@ -146,7 +151,8 @@ class ReportGenerator:
         validation_report.write("<h2>END OF VALIDATION REPORT</h2>\n\n")
 
         validation_report.write('<p style="width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">')
-        validation_report.write("CeliaDTBValidator v. 0.9.3beta1 (" + program_versions[0] + ", with " + program_versions[1] + ")</p>	\n")
+        validation_report.write("CeliaDTBValidator v. 0.9.3beta1 (" + program_versions[0] + "; " + program_versions[1])
+        validation_report.write("; " + program_versions[2] + "; " + program_versions[3] + ")</p>\n")
 
         validation_report.write("</body>\n"
                                 + "</html>")
