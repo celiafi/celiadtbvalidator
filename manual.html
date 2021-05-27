@@ -5,143 +5,259 @@
     <title>Celia DTB Validator manual</title>
 </head>
 <body>
-    <h1>Celia DTB Validator user manual</h1>
 
-    <h2>Installation</h2>
-<pre style="font-size:18px; padding-left: 40px">
-Celia DTB Validator is designed and tested for Windows 10, using Python 3.8.7.
+<h1>Celia DTB Validator</h1>
 
-For audio and Daisy validation it is required that following programs are also installed:</pre>
-<pre style="font-size:18px; padding-left: 80px">
-FFmpeg 4.4
-Daisy Pipeline 1 v. 20111215.</pre>
-<pre style="font-size:18px; padding-left: 40px">
-Other versions of FFmpeg might also work, but have not been tested and might not work.
-If validation is done for audio only, Daisy Pipeline is not required.
-Please refer to the documentation of the programs mentioned for more information
-on installation and usage.
+E-book and audiobook validation tool
 
-FFmpeg must be in in PATH, ie. so that it works with command 'ffmpeg'.
+<h2>Introduction</h2>
 
-It is also to be noted that FFmpeg might also require aditional modules to
-be installed in order for it to be able to work with files in mp3 format.
-Please refer to documentation provided by FFmpeg for more information.
+<h3>What does the Celia DTB Validator do?</h3>
 
-Also should be noted, that pipeline uses Java, so that must also be installed,
-if validating Daisy books.
+<p>The Celia DTB Validator analyses files for their digital peak level, true peak (ISP) level,  signal-to-noise ratio and LUFS. Validator also looks for unexpected silences in files and checks that there is silence at end of file and no silence at start of file. If examined book is Daisy it is also possible to validate book using Daisy Pipeline Validator light.  It is also possible to encode audio of a Daisy book to mp3 using Daisy Pipeline.</p>
 
-For installation of Celia DTB Validator the files can be placed in any location.
-Celia DTB Validator is written in pure Python3 and does not require any additional
-Python modules to run. Usage of virtualenv is recomended but not required as there
-are no additional third party modules needed to install.
+<h3>Validations performed</h3>
 
-For basic usage use validator_gui.py to run Celia DTB Validator GUI.
+<h4>Audiofile validations</h4>
+<ul>
+  <li>Lufs, pkdb, tpkdb, snr levels are in valid range
+  <li> Lufs does not change noticeably between two files
+  <li> There is enough silence at end of file
+  <li> There is not too much silence at end of file
+  <li> There is sound at beginning of file
+  <li> There are no unexpected silences at middle of file
+</ul>
 
-For advanced usage use celia_dtb_validator.py from cmd or Powershell.
+<h4>Daisy validations</h4>
+
+<ul>
+  <li> ncc.html file exist
+  <li> smil-files exist
+  <li> filename prefix matches dc:identifier
+  <li> Number of smil files is same as number of audio files
+  <li> master.smil file exists
+  <li> Only one phrase in the first heading
+  <li> ncc.html encoded to certain character encoding
+  <li> Metadata fields not left empty
+  <li> Page numbers not found at first phrase of heading
+  <li> Daisy pipeline 1 Daisy 2.02 Validator light validation
+</ul>
+
+<h2>Installation</h2>
+
+<h3>Prerequisites</h3>
+
+<p>Celia DTB Validator is designed to work on Windows 10, using Python 3.8.7. (newer python3 versions should also work)</p>
+
+<p>For audio and Daisy validation it is required that following programs are also installed:</p>
+
+<ul>
+  <li> Python 3.8.7 (or newer)
+  <li> FFmpeg 4.4 (or newer)
+  <li> Daisy Pipeline 1 v. 20111215
+  <li> Java JRE 11 (should install automatically when installing Pipeline?) (note: in test environment we use AdoptOpenJDK Java JRE 8, and it also does work)
+</ul>
+
+<p>Other version might also work, but have not been tested and might not work.</p>
+
+<p>If validation is done for audio only, Daisy Pipeline is not required.</p>
+
+<p>Please refer to the documentation of the programs mentioned for more informationon installation and usage.</p>
+
+<p>The script expects FFmpeg to be in PATH, ie. so that it works with command 'ffmpeg', so evironment variable needs to be set for it.</p>
+
+<p>It is also to be noted that FFmpeg might also require aditional modules tobe installed in order for them to be able to work with files in mp3 format (or flac, ogg, ...). Mp3 support has not been tested while development as the program is primarily meant as validating wav files. Please refer to documentation provided by FFmpeg for more information.</p>
+
+<p>Also should be noted, that pipeline uses Java, so that must also be installed, if validating Daisy books. Pipeline also does expect Java to be in in PATH, ie. so that it works with command 'java', so evironment variable needs to be set for it also. Pipeline 1 projects documentation recommends Java 11, but in development and testing environment, we have used Java 8, and it also does seem to work ok (atleast now in may 2021).</p>
+
+<h3>Downloads</h3>
+
+<p>Newest version of Celia DTB Validator can be downloaded from github as a zip:</p>
+
+<img src="img/github1.png">
+
+
+<p>...or by cloning it with git, using for example https that can be seen in project page:</p>
+
+<img src="img/github2.png">
+
+<p>with command</p>
+
+<pre>
+    git clone https://github.com/celiafi/celiadtbvalidator.git
 </pre>
-    <h2>Usage</h2>
-<pre style="font-size:18px; padding-left: 40px">
-Celia DTB Validator can be run from command line or using a minimalistic GUI.
 
-These are the key components:</pre>
-<pre style="font-size:18px; padding-left: 80px">
-Input path:     Path to the folder containing book to be validated
-Output path:    Path to folder where encoded book is placed (if audio encoding is enabled)
-Report path:    Path to folder where validation report is stored
-Config file:    File where all variables (for example valid LUFS values etc.) can be set
-                and where audio and daisy validations and audio encoding can be enabled/disabled.
-                Config file is located on the same folder as the file celia_dtb_validator.py.
-</pre>
+<p>Archived older releases can be downloaded as zip from releases page</p>
 
-    <h3>Graphical user interface</h3>
-<pre style="font-size:18px; padding-left: 40px">
+<img src="img/github3.png">
+
+<h3>Installation</h3>
+
+<p>For installation of Celia DTB Validator the files can be placed in any location.</p>
+
+<p>Celia DTB Validator is written in pure Python3 and does not require any additionalPython modules to run. Usage of virtualenv is always a good practise, but it is not really needed here as there are no additional third party python modules needed.</p>
+
+
+<h2>Usage</h2>
+
+<p>For basic usage use validator_gui.py to run Celia DTB Validator GUI.</p>
+
+<p>For advanced usage use celia_dtb_validator.py from cmd or Powershell.</p>
+
+<h3>Key concepts</h3>
+
+<p>These are the key consepts in Celia DTB Validators usage:</p>
+
+<p>
+<b>Input path:</b><br />  
+Path to the folder containing book to be validated  <br />
+<b>Output path:</b><br />  
+Path to folder where encoded book is placed (if audio encoding is enabled)  <br />
+<b>Report path:</b><br />  
+Path to folder where validation report is stored  <br />
+<b>Config file:**  </b><br />
+File where all variables (for example valid LUFS values etc.) can be set and where audio and daisy validations and audio encoding can be enabled/disabled. Config file is located on the same folder as the file celia_dtb_validator.py.
+</p>
+
+<h3>Graphical user interface</h3>
+
 <img src="img/gui_img1.jpg" width="1000" height="357">
 
-Minimalistic GUI enables user to define all paths, open the config file for editing and to start the validation.
+<p>Minimalistic GUI enables user to define all paths, open the config file for editing and to start the validation.</p>
 
-Validation output is shown on Python3 prompt. After validation is finished the report is shown in users
-default webbrowser.
+<p>Validation output is shown on Python3 prompt. After validation is finished the report is shown in usersdefault webbrowser.</p>
 
-<img src="img/gui_img2.jpg" width="1000" height="601">
+<img src="img/gui_img2.jpg">
 
-After examining the report the user can then decide wheter or not to proceed with audio encoding.
+<p>After examining the report the user can then decide wheter or not to proceed with audio encoding.</p>
 
 <img src="img/gui_img3.jpg" width="1000" height="357">
 
-</pre>
-    <h3>Command line interface</h3>
-<pre style="font-size:18px; padding-left: 40px">
-Command line interface can be run with following command:</pre>
-<pre style="font-size:18px; padding-left: 80px">
-python celia_dtb_validator.py -i BOOKPATH [-o OUTPUTPATH] [-r REPORTPATH]</pre>
-<pre style="font-size:18px; padding-left: 40px">
-There is also parameter -h to print basic usage info and -v to print version number.
+<h3>Command line interface</h3>
 
-NOTE ON PATHS WITH SPACES:
-If you use paths with spaces you should leave out the last backslash. The last backslash will be interpreted as escape character.
-Use 'C:\Temp\Path With Spaces' instead of 'C:\Temp\Path With Spaces\'
+<p>Command line interface can be run with following command:</p>
 
-You can also use double quotes ie. "'C:\Temp\Path With Spaces\'", or use forward slahes instead, ie. 'C:/Temp/Path With Spaces/'
+<pre>
+    python celia_dtb_validator.py -i BOOKPATH [-o OUTPUTPATH] [-r REPORTPATH]
 </pre>
 
-    <h3>Configuration</h3>
-<pre style="font-size:18px; padding-left: 40px">
-All setting can be configured using the config.txt file. Please see config.txt for more information.
+<p>There is also parameter -h to print basic usage info and -v to print version number.</p>
 
-Note: If you mess up your configuration file a new one is generated automatically, if you delete
-or rename the current config.txt file.
 
-</pre>
+<p><b>NOTE ON PATHS WITH SPACES:</b><br /> 
+If you use paths with spaces you should leave out the last backslash. The last backslash will be interpreted as escape character. Use 'C:\Temp\Path With Spaces' instead of 'C:\Temp\Path With Spaces\'  <br />
+You can also use double quotes ie. "'C:\Temp\Path With Spaces\'", or use forward slahes instead, ie. 'C:/Temp/Path With Spaces/'</p>
 
-    <h3>Examples</h3>
-    <h4>Daisy production example</h4>
-<pre style="font-size:18px; padding-left: 40px">
-1. Record book as usual.
-2. Regenerate book using book id as file name prefix (optional)
-3. Change dc:identifier on (regenerated) books ncc.html to book id
-   (optional - dc:identifier is used as mp3 encoded books foldername
-   (if empty folder is named as 'mp3'))
-4. Run validation on (regenerated) book using folowing configurations
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 1
-    target_kbps = 64 (or some other value)
-5. Examine validation report
-6. Validator ask if you wish to continue with audio encoding
-    if there are errors -> answer no and fix them on original book and do steps 2-5 again
-    if no errors are found -> answer 'y'
-7. After encoding the encoded audio book is in output-folders
-</pre>
-    <h4>Daisy and audio validation example</h4>
-<pre style="font-size:18px; padding-left: 40px">
-1. Run validation on any Daisy book using folowing configurations
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 0
-2. Examine validation report
+<h3>Configuration</h3>
+
+<p>All setting can be configured using the config.txt file.</p>
+
+<p>Following configurations can be set:</p>
+
+<ul>
+  <li> audio validation (on/off)
+  <li> daisy validation (on/off)
+  <li> open reports after validation (on/off)
+  <li> encode audio (on/off)
+  <li> target kbps
+  <li> target text encoding
+  <li> lufs min
+  <li> lufs max
+  <li> pkdb min
+  <li> pkdb max
+  <li> tpkdb min
+  <li> tpkdb max
+  <li> snr min
+  <li> silence db
+  <li> end silence min
+  <li> end silence max
+  <li> start silence max
+  <li> mid silence max
+  <li> max volume level flux
+  <li> pipeline path
+  <li> pipeline validator cmd
+  <li> pipeline audioencoder cmd
+</ul>
+
+<p>Please see <i>config.txt</i> for more information.</p>
+
+<p>Note: If you mess up your configuration file a new one is generated automatically, if you delete or rename the current config.txt file.</p>
+
+<h3>Examples</h3>
+
+<h4>Daisy production example</h4>
+
+<ol>
+  <li>Record book as usual.
+  <li>Regenerate book using book id as file name prefix (optional)
+  <li>Change dc:identifier on (regenerated) books ncc.html to book id  
+   (optional - dc:identifier is used as mp3 encoded books foldername  
+   (if empty folder is named as 'mp3'))  
+  <li>Run validation on (regenerated) book using folowing configurations  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 1  
+    target_kbps = 64 (or some other value)  
+  <li>Examine validation report
+  <li>Validator ask if you wish to continue with audio encoding  
+    if there are errors -> answer no and fix them on original book and do steps 2-5 again  
+    if no errors are found -> answer 'y'  
+  <li>After encoding the encoded audio book is in output-folders
+</ol>
+
+
+<h4>Daisy and audio validation example</h4>
+
+<ol>
+  <li>Run validation on any Daisy book using folowing configurations  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 0  
+  <li>Examine validation report  
     if there are errors -> fix/report them etc.
-</pre>
-    <h4>Mp3 playlist audiobook audio validation</h4>
-<pre style="font-size:18px; padding-left: 40px">
-1. Record audio and generate playlist as usual
-2. Run validation on folder containing audio files using folowing configurations:
-    audio_validation = 1
-    daisy_validation = 0
-    encode_audio = 0 (optional -> disabling daisy validations automatically disables audio encoding)
-3. Examine validator report
+</ol>
+
+<h4>Mp3 playlist audiobook audio validation</h4>
+
+<ol>
+  <li>Record audio and generate playlist as usual
+  <li>Run validation on folder containing audio files using folowing configurations:  
+    audio_validation = 1  
+    daisy_validation = 0  
+    encode_audio = 0 (optional -> disabling daisy validations automatically disables audio encoding)  
+  <li>Examine validator report  
     if there are errors -> fix errors and do steps 1-3 again
-</pre>
-    <h4>Batch validate all daisy books in a folder</h4>
-<pre style="font-size:18px; padding-left: 40px">
-1. Put all books in one folder
-2. Use folowing configurations:
-    audio_validation = 1
-    daisy_validation = 1
-    encode_audio = 0
-3. Run following Powershell command:
-    $dtbs = ls -Directory -Path PATHTOFOLDER | % { $_.FullName } ; foreach ($dtb in $dtbs) {python PATHTOVALIDATOR\celia_dtb_validator.py -i $dtb -r PATHTOFOLDER}
-4. Reports are opened into default webbrowser in tabs and stored into PATHTOFOLDER.
-</pre>
+</ol>
+
+<h4>Batch validate all daisy books in a folder</h4>
+
+<ol>
+  <li>Put all books in one folder
+  <li>Use folowing configurations:  
+    audio_validation = 1  
+    daisy_validation = 1  
+    encode_audio = 0  
+  <li>Run following Powershell command:  
+    $dtbs = ls -Directory -Path PATHTOFOLDER | % { $_.FullName } ; foreach ($dtb in $dtbs) {python PATHTOVALIDATOR\celia_dtb_validator.py -i $dtb -r PATHTOFOLDER}  
+  <li>Reports are opened into default webbrowser in tabs and stored into PATHTOFOLDER.
+</ol>
+
+<h2>License</h2>
+
+<pre>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+<pre>
 
 </body>
 </html>
