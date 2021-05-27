@@ -2,66 +2,97 @@
 
 E-book and audiobook validation tool
 
-# Introduction
+## Introduction
 
-## What does the Celia DTB Validator do?
+### What does the Celia DTB Validator do?
 
 The Celia DTB Validator analyses files for their digital peak level, true peak (ISP) level, signal-to-noise ratio and LUFS. Validator also looks for unexpected silences in files and checks that there is silence at end of file and no silence at start of file. If examined book is Daisy it is also possible to validate book using Daisy Pipeline Validator light. It is also possible to encode audio of a Daisy book to mp3 using Daisy Pipeline.
 
 ### Validations performed
+
+#### Audiofile validations
 - Lufs, pkdb, tpkdb, snr levels are in valid range
 - Lufs does not change noticeably between two files
 - There is enough silence at end of file
 - There is not too much silence at end of file
 - There is sound at beginning of file
 - There are no unexpected silences at middle of file
-- ncc.html file exist (if daisy book)
-- smil-files exist (if daisy book)
-- filename prefix matches dc:identifier (if daisy book)
-- Number of smil files is same as number of audio files (if daisy book)
+
+#### Daisy validations
+- ncc.html file exist
+- smil-files exist
+- filename prefix matches dc:identifier
+- Number of smil files is same as number of audio files
 - master.smil file exists
-- Only one phrase in the first heading (if daisy book)
-- ncc.html encoded to certain character encoding (if daisy book)
-- Metadata fields not left empty (if daisy book)
-- Page numbers not found at first phrase of heading (if daisy book)
+- Only one phrase in the first heading
+- ncc.html encoded to certain character encoding
+- Metadata fields not left empty
+- Page numbers not found at first phrase of heading
 - Daisy pipeline 1 Daisy 2.02 Validator light validation
 
 ## Installation
 
+### Prerequisites
+
 Celia DTB Validator is designed to work on Windows 10, using Python 3.8.7. (newer python3 versions should also work)
 
 For audio and Daisy validation it is required that following programs are also installed:
-- FFmpeg 4.4
-- Daisy Pipeline 1 v. 20111215.
+- Python 3.8.7 (or newer)
+- FFmpeg 4.4 (or newer)
+- Daisy Pipeline 1 v. 20111215
+- Java JRE 11 (should install automatically when installing Pipeline?) (note: in test environment we use AdoptOpenJDK Java JRE 8, and it also does work)
 
 Other version might also work, but have not been tested and might not work.
+
 If validation is done for audio only, Daisy Pipeline is not required.
+
 Please refer to the documentation of the programs mentioned for more information
 on installation and usage.
 
-Sox and FFmpeg must be in in PATH, ie. so that it works with command 'ffmpeg'.
+The script expects FFmpeg to be in PATH, ie. so that it works with command 'ffmpeg', so evironment variable needs to be set for it.
 
 It is also to be noted that FFmpeg might also require aditional modules to
-be installed in order for them to be able to work with files in mp3 format.
-Please refer to documentation provided by FFmpeg for more information.
+be installed in order for them to be able to work with files in mp3 format (or flac, ogg, ...). Mp3 support has not been tested while development as the program is primarily meant as validating wav files. Please refer to documentation provided by FFmpeg for more information.
 
 Also should be noted, that pipeline uses Java, so that must also be installed,
-if validating Daisy books.
+if validating Daisy books. Pipeline also does expect Java to be in in PATH, ie. so that it works with command 'java', so evironment variable needs to be set for it also. Pipeline 1 projects documentation recommends Java 11, but in development and testing environment, we have used Java 8, and it also does seem to work ok (atleast now in may 2021).
+
+### Downloads
+
+Newest version of Celia DTB Validator can be downloaded from github as a zip:
+
+![github download as zip button](./img/github1.jpg)
+
+...or by cloning it with git, using for example https that can be seen in project page:
+
+![github git clone https link](./img/github2.jpg)
+
+with command
+
+```
+git clone https://github.com/celiafi/celiadtbvalidator.git
+```
+
+Archived older releases can be downloaded as zip from releases page
+
+![download release from github](./img/github3.jpg)
+
+### Installation
 
 For installation of Celia DTB Validator the files can be placed in any location.
 Celia DTB Validator is written in pure Python3 and does not require any additional
-Python modules to run. Usage of virtualenv is recomended but not required as there
-are no additional third party modules needed to install.
+Python modules to run. Usage of virtualenv is always a good practise, but it is not really needed here as there are no additional third party python modules needed.
+
+
+## Usage
 
 For basic usage use validator_gui.py to run Celia DTB Validator GUI.
 
 For advanced usage use celia_dtb_validator.py from cmd or Powershell.
 
-## Usage
+### Key concepts
 
-Celia DTB Validator can be run from command line or using a minimalistic GUI.
-
-These are the key components:
+These are the key consepts in Celia DTB Validators usage:
 
 **Input path:**  
 Path to the folder containing book to be validated  
@@ -91,7 +122,9 @@ After examining the report the user can then decide wheter or not to proceed wit
 
 Command line interface can be run with following command:
 
-    python celia_dtb_validator.py -i BOOKPATH [-o OUTPUTPATH] [-r REPORTPATH]
+```
+python celia_dtb_validator.py -i BOOKPATH [-o OUTPUTPATH] [-r REPORTPATH]
+```
 
 There is also parameter -h to print basic usage info and -v to print version number.
 
@@ -103,10 +136,36 @@ You can also use double quotes ie. "'C:\Temp\Path With Spaces\'", or use forward
 
 ### Configuration
 
-All setting can be configured using the config.txt file. Please see config.txt for more information.
+All setting can be configured using the config.txt file.
 
-Note: If you mess up your configuration file a new one is generated automatically, if you delete
-or rename the current config.txt file.
+Following configurations can be set:
+
+- audio validation (on/off)
+- daisy validation (on/off)
+- open reports after validation (on/off)
+- encode audio (on/off)
+- target kbps
+- target text encoding
+- lufs min
+- lufs max
+- pkdb min
+- pkdb max
+- tpkdb min
+- tpkdb max
+- snr min
+- silence db
+- end silence min
+- end silence max
+- start silence max
+- mid silence max
+- max volume level flux
+- pipeline path
+- pipeline validator cmd
+- pipeline audioencoder cmd
+
+Please see [config.txt](config.txt) for more information.
+
+Note: If you mess up your configuration file a new one is generated automatically, if you delete or rename the current config.txt file.
 
 ### Examples
 
