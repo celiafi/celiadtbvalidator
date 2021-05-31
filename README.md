@@ -61,11 +61,11 @@ if validating Daisy books. Pipeline also does expect Java to be in in PATH, ie. 
 
 Newest version of Celia DTB Validator can be downloaded from github as a zip:
 
-![github download as zip button](./img/github1.jpg)
+![github download as zip button](./img/github1.png)
 
 ...or by cloning it with git, using for example https that can be seen in project page:
 
-![github git clone https link](./img/github2.jpg)
+![github git clone https link](./img/github2.png)
 
 with command
 
@@ -75,7 +75,7 @@ git clone https://github.com/celiafi/celiadtbvalidator.git
 
 Archived older releases can be downloaded as zip from releases page
 
-![download release from github](./img/github3.jpg)
+![download release from github](./img/github3.png)
 
 ### Installation
 
