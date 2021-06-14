@@ -47,7 +47,4 @@ max_volume_level_flux = 2
 # DAISY PIPELINE SETTINGS (NOTE: IF YOU DON'T KNOW WHAT YOU ARE DOING, PLEASE DO NOT CHANGE THESE VALUES!)
 # Pipeline paths.
 pipeline_path = C:\Program Files (x86)\DAISY Pipeline\plugins\org.daisy.pipeline_1.0.12
-pipeline_validator_cmd = .\\pipeline-cli.bat scripts\\verify\\Daisy202DTBValidator.taskScript
-pipeline_audioencoder_cmd = .\\pipeline-cli.bat scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript
-
 
