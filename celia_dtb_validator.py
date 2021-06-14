@@ -110,11 +110,6 @@ class CeliaDTBValidator:
         if target_text_encoding == "":
             target_text_encoding = "utf-8"
         try:
-            target_kbps = int(ConfigGetter.get_configs("target_kbps"))
-        except:
-            print("  !Error while reading target_kbps from config.txt, using default value!")
-            target_kbps = 48
-        try:
             lufs_min = int(ConfigGetter.get_configs("lufs_min"))
         except:
             print("  !Error while reading lufs_min from config.txt, using default value!")
@@ -149,16 +144,6 @@ class CeliaDTBValidator:
         except:
             print("  !Error while reading snr_min from config.txt, using default value!")
             snr_min = 45
-        try:
-            kbps_min = int(ConfigGetter.get_configs("kbps_min"))
-        except:
-            print("  !Error while reading kbps_min from config.txt, using default value!")
-            kbps_min = 32
-        try:
-            kbps_max = int(ConfigGetter.get_configs("kbps_max"))
-        except:
-            print("  !Error while reading kbps_max from config.txt, using default value!")
-            kbps_max = 48
 
         time_stamp = datetime.datetime.today().strftime('%Y-%m-%d-%H%M%S')
         report_out_path = pathlib.Path.joinpath(pathlib.Path(report_location), audiobook.dc_identifier 
