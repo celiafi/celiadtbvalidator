@@ -112,42 +112,52 @@ class CeliaDTBValidator:
         try:
             target_kbps = int(ConfigGetter.get_configs("target_kbps"))
         except:
+            print("  !Error while reading target_kbps from config.txt, using default value!")
             target_kbps = 48
         try:
             lufs_min = int(ConfigGetter.get_configs("lufs_min"))
         except:
+            print("  !Error while reading lufs_min from config.txt, using default value!")
             lufs_min = -20
         try:
             lufs_max = int(ConfigGetter.get_configs("lufs_max"))
         except:
+            print("  !Error while reading lufs_max from config.txt, using default value!")
             lufs_max = -17
         try:
             pkdb_min = int(ConfigGetter.get_configs("pkdb_min"))
         except:
+            print("  !Error while reading pkdb_min from config.txt, using default value!")
             pkdb_min = -2
         try:
             pkdb_max = int(ConfigGetter.get_configs("pkdb_max"))
         except:
+            print("  !Error while reading pkdb_max from config.txt, using default value!")
             pkdb_max = 0
         try:
             tpkdb_min = int(ConfigGetter.get_configs("tpkdb_min"))
         except:
+            print("  !Error while reading tpkdb_min from config.txt, using default value!")
             tpkdb_min = -2
         try:
             tpkdb_max = int(ConfigGetter.get_configs("tpkdb_max"))
         except:
+            print("  !Error while reading tpkdb_max from config.txt, using default value!")
             tpkdb_max = 0
         try:
             snr_min = int(ConfigGetter.get_configs("snr_min"))
         except:
+            print("  !Error while reading snr_min from config.txt, using default value!")
             snr_min = 45
         try:
             kbps_min = int(ConfigGetter.get_configs("kbps_min"))
         except:
+            print("  !Error while reading kbps_min from config.txt, using default value!")
             kbps_min = 32
         try:
             kbps_max = int(ConfigGetter.get_configs("kbps_max"))
         except:
+            print("  !Error while reading kbps_max from config.txt, using default value!")
             kbps_max = 48
 
         time_stamp = datetime.datetime.today().strftime('%Y-%m-%d-%H%M%S')
