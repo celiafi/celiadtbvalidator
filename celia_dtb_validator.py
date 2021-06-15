@@ -1,6 +1,7 @@
 from modules.audio_book import AudioBook
 from modules.audio_file import AudioFile
 from modules.config_getter import ConfigGetter
+from modules.path_checker import PathChecker
 from modules.audio_scrutinizer import AudioScrutinizer
 from shutil import which
 import pathlib
@@ -320,6 +321,17 @@ if __name__ == "__main__":
     #if which("sox") is None:
     #    input("sox not found from PATH! Please install sox before running validator.")
     #    sys.exit()
+
+    if ConfigGetter.get_configs("audio_validation") == "1":
+        if not PathChecker.check_audio_ext_paths():
+            input("FFmpeg not found. Please install FFmpeg and/or define FFmpeg path in config.txt")
+            sys.exit()
+
+    if ConfigGetter.get_configs("daisy_validation") == "1":
+        if not PathChecker.check_daisy_ext_paths():
+            input("Pipeline 1 or java not found. Please install Pipeline 1 and java and/or define Pipeline 1 and java paths in config.txt")
+            sys.exit()
+
     if which("ffmpeg") is None:
         input("ffmpeg not found from PATH! Please install ffmpeg before running validator.")
         sys.exit()

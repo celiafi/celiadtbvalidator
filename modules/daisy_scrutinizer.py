@@ -174,7 +174,7 @@ class DaisyScrutinizer:
             cmd_encode = ".\\pipeline-cli.bat scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript"
 
             target_kbps = ConfigGetter.get_configs("target_kbps")
-            if not target_kbps == "32" or not target_kbps == "48" or not target_kbps == "64" or not target_kbps == "128":
+            if not target_kbps == "32" and not target_kbps == "48" and not target_kbps == "64" and not target_kbps == "128":
                 print("  !Error while reading target_kbps from config.txt, using default value!")
                 target_kbps = "48"
 
