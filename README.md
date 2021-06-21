@@ -160,8 +160,8 @@ Following configurations can be set:
 - mid silence max
 - max volume level flux
 - pipeline path
-- pipeline validator cmd
-- pipeline audioencoder cmd
+- FFmpeg path
+- java path
 
 Please see [config.txt](config.txt) for more information.
 
