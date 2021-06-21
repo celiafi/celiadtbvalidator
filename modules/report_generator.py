@@ -6,16 +6,27 @@ import re
 
 def get_system_info():
     python_version_info = "Python " + str(sys.version_info[0]) + "." + str(sys.version_info[1])+ "." + str(sys.version_info[2])
-    ffmpeg_cmd_version = 'cmd /c ffmpeg -version'
-    java_cmd_version = 'cmd /c java -version'
+    ffmpeg_cmd_version = 'cmd /c "' + ConfigGetter.get_configs("ffmpeg_path") + '" -version'
+    java_cmd_version = 'cmd /c "' + ConfigGetter.get_configs("java_path") + '" -version'
     pipeline_version = re.sub(r".+org\.daisy\.pipeline_", "Daisy Pipeline v. ", ConfigGetter.get_configs("pipeline_path"))
 
+    ffmpeg_version = ""
     raw_output_ffmpeg = ExternalProgramCaller.run_external_command(ffmpeg_cmd_version).splitlines()
-    ffmpeg_version = re.sub(r' Copyright.+', '', raw_output_ffmpeg[0])
-    ffmpeg_version = re.sub(r'ffmpeg', 'FFmpeg', ffmpeg_version)
+    for line in raw_output_ffmpeg:
+        if re.search(r" Copyright.+", line):
+            ffmpeg_version = re.sub(r' Copyright.+', '', line)
+            ffmpeg_version = re.sub(r'ffmpeg', 'FFmpeg', ffmpeg_version)
+            break
+    
+    java_version = ""
     raw_output_java = ExternalProgramCaller.run_external_command(java_cmd_version).splitlines()
-    java_version = "Java " + re.sub(r'"', '', raw_output_java[0])
+    for line in raw_output_java:
+        if re.search(r".+version.+", line):
+            java_version = "Java " + re.sub(r'"', '', line)
+            break
+    
     system_info_list = [python_version_info, ffmpeg_version, java_version, pipeline_version]
+    #print(system_info_list)
 
     return system_info_list
 
