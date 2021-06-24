@@ -14,7 +14,7 @@ from modules.daisy_scrutinizer import DaisyScrutinizer
 
 
 def get_version_num():
-    return "v. 0.9.3beta1"
+    return "v. 0.9.3"
 
 
 def get_args(args):

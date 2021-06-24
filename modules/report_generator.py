@@ -162,7 +162,7 @@ class ReportGenerator:
         validation_report.write("<h2>END OF VALIDATION REPORT</h2>\n\n")
 
         validation_report.write('<p style="width: 100%; text-align: center; font-size: 12px; font-style: italic; font-weight: bold;">')
-        validation_report.write("CeliaDTBValidator v. 0.9.3beta1 (" + program_versions[0] + "; " + program_versions[1])
+        validation_report.write("CeliaDTBValidator v. 0.9.3 (" + program_versions[0] + "; " + program_versions[1])
         validation_report.write("; " + program_versions[2] + "; " + program_versions[3] + ")</p>\n")
 
         validation_report.write("</body>\n"
