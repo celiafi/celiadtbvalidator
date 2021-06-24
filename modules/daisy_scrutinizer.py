@@ -85,7 +85,6 @@ class DaisyScrutinizer:
             results = [errors, warnings]
             return results
 
-        #cmd_validator = ConfigGetter.get_configs("pipeline_validator_cmd")
         cmd_validator = ".\\pipeline-cli.bat scripts\\verify\\Daisy202DTBValidator.taskScript"
 
         # NOTE! It seems there is a bug in pipeline, so that the pipelinecli can not be run from any other location,
@@ -170,7 +169,6 @@ class DaisyScrutinizer:
         # "--output=outpath" "--bitrate=48"
         pipeline_path = pathlib.Path(ConfigGetter.get_configs("pipeline_path"))
         if pipeline_path.exists():
-            #cmd_encode = ConfigGetter.get_configs("pipeline_audioencoder_cmd")
             cmd_encode = ".\\pipeline-cli.bat scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript"
 
             target_kbps = ConfigGetter.get_configs("target_kbps")

@@ -21,9 +21,6 @@ class AudioScrutinizer:
     def get_stats(f_path):
         print("     Calculating lufs & peak levels")
 
-        # f_path = str(pathlib.Path(f_path).absolute())
-        # input(f_path)
-
         stats = []
 
         lufs = 0.0
@@ -38,8 +35,6 @@ class AudioScrutinizer:
 
         raw_output_lufs = ExternalProgramCaller.run_external_command(ffmpeg_cmd_lufs).splitlines()
         raw_output_stats = ExternalProgramCaller.run_external_command(ffmpeg_cmd_stats).splitlines()
-
-
 
         rms_trough_db = 0.0
         rms_peak_db = 0.0
@@ -74,15 +69,6 @@ class AudioScrutinizer:
                 line = re.sub(r".+RMS peak dB: ", "", line)
                 rms_peak_db = round(float(line),2)
             
-        
-        
-        
-            # snr (sox) example:
-            # a: RMS Pk dB      -9.04
-            # b: RMS Tr dB     -91.69
-            # -> snr = a - b
-
-
         snr = rms_peak_db - rms_trough_db
 
         stats.append(lufs)
@@ -108,9 +94,6 @@ class AudioScrutinizer:
 
         silence_check = []
 
-        # Silence at start of audiofile
-        # sox PATH -n trim 0 0:01.001 stats 2>&1
-
         no_start_silence = True
         start_silence_max = ConfigGetter.get_configs("start_silence_max")
         if not re.search(r'^\d:\d\d\.\d\d\d$', start_silence_max.strip()):
@@ -118,18 +101,12 @@ class AudioScrutinizer:
             start_silence_max = "0:01.001"
         else:
             start_silence_max = start_silence_max.strip()
-        
-        # if start_silence_max == "":
-        #     start_silence_max = "0:01.001"
-        
+                
         start_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -ss 00:00:00 -nostats -i "' + f_path + '" -to 00:0' + start_silence_max + ' -filter_complex ebur128=peak=true -f null - 2>&1'
         
         raw_output = ExternalProgramCaller.run_external_command(start_silence_max_ffmpeg_cmd).splitlines()
         if get_peak(raw_output) < silence_db:
             no_start_silence = False
-
-        # Minimum silence at end of file
-        # sox PATH -n reverse trim 0 0:01.801 reverse stats 2>&1
 
         silence_at_end = True
         end_silence_min = ConfigGetter.get_configs("end_silence_min")
@@ -140,18 +117,12 @@ class AudioScrutinizer:
         else:
             end_silence_min = end_silence_min.strip()
 
-        # if end_silence_min == "":
-        #     end_silence_min = "0:01.801"
-
         end_silence_min_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_min + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
 
         raw_output = ExternalProgramCaller.run_external_command(end_silence_min_ffmpeg_cmd).splitlines()
 
         if get_peak(raw_output) > silence_db:
             silence_at_end = False
-
-        # Maximum allowed silence at end of file
-        # sox PATH -n reverse trim 0 0:15.001 reverse stats 2>&1
 
         no_unexpected_silence_at_end = True
         end_silence_max = ConfigGetter.get_configs("end_silence_max")
@@ -162,9 +133,6 @@ class AudioScrutinizer:
         else:
             end_silence_max = end_silence_max.strip()
 
-        # if end_silence_max == "":
-        #     end_silence_max = "0:15.001"
-
         end_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_max + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
 
         raw_output = ExternalProgramCaller.run_external_command(end_silence_max_ffmpeg_cmd).splitlines()
@@ -172,8 +140,6 @@ class AudioScrutinizer:
         if get_peak(raw_output) < silence_db:
             no_unexpected_silence_at_end = False
 
-        # Unexpected mid silences
-        # ffmpeg -nostats -i TIEDOSTO -af silencedetect=noise=-26dB:d=5 -f null - 2>&1
         mid_silence_max = ConfigGetter.get_configs("mid_silence_max")
 
         try:
@@ -183,8 +149,6 @@ class AudioScrutinizer:
             print("      !Error while reading mid_silence_max from config.txt, using default value!")
             mid_silence_max = "7"
         
-        # if mid_silence_max == "":
-        #     mid_silence_max = "7"
         mid_silences = []
         mid_silence_cmd = 'cmd /c ffmpeg -nostats -i "' \
                           + f_path + '" -af silencedetect=noise=' + str(silence_db) + 'dB:d=' \
@@ -210,7 +174,6 @@ class AudioScrutinizer:
                 silence_at_sec_ms_tmp = str(silence_at_sec_ms).split(".")
                 silence_at_sec = int(silence_at_sec_ms_tmp[0])
                 silence_at_ms = float("0." + silence_at_sec_ms_tmp[1])
-                # silence_at_ms = round(silence_at_ms, 3)
                 silence_at_ms = float(format(silence_at_ms, ".3f"))
                 silence_at_sec_ms = silence_at_sec + silence_at_ms
                 if silence_at_sec_ms < 10:

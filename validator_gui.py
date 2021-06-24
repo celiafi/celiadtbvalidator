@@ -43,10 +43,6 @@ def open_manua():
 # MAIN...
 if __name__ == "__main__":
 
-    #if which("sox") is None:
-    #    input("sox not found from PATH! Please install sox before running validator.")
-    #    sys.exit()
-
     if config_getter.ConfigGetter.get_configs("audio_validation") == "1":
         if not PathChecker.check_audio_ext_paths():
             input("FFmpeg not found. Please install FFmpeg and/or define FFmpeg path in config.txt")
@@ -57,10 +53,6 @@ if __name__ == "__main__":
             input("Pipeline 1 or java not found. Please install Pipeline 1 and java and/or define Pipeline 1 and java paths in config.txt")
             sys.exit()
 
-    
-    # if which("ffmpeg") is None:
-    #     input("ffmpeg not found from PATH! Please install ffmpeg before running validator.")
-    #     sys.exit()
 
     gui = Tk()
     gui.title("Celia DTB Validator GUI")

@@ -56,13 +56,10 @@ def generate_configs():
                "max_volume_level_flux = 1",
                "",
                "",
-               "# DAISY PIPELINE SETTINGS (NOTE: IF YOU DON'T KNOW WHAT YOU ARE DOING, PLEASE DO NOT CHANGE THESE "
-               "VALUES!)",
-               "# Pipeline paths.",
+               "# PATHS",
                r"pipeline_path = C:\Program Files (x86)\DAISY Pipeline\plugins\org.daisy.pipeline_1.0.12",
-               r"pipeline_validator_cmd = .\\pipeline-cli.bat scripts\\verify\\Daisy202DTBValidator.taskScript",
-               r"pipeline_audioencoder_cmd = .\\pipeline-cli.bat "
-               r"scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript",
+               "ffmpeg_path = ffmpeg",
+               "java_path = java",
                "",
                ""]
     for conf in configs:
