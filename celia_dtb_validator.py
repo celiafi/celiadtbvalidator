@@ -1,6 +1,7 @@
 from modules.audio_book import AudioBook
 from modules.audio_file import AudioFile
 from modules.config_getter import ConfigGetter
+from modules.path_checker import PathChecker
 from modules.audio_scrutinizer import AudioScrutinizer
 from shutil import which
 import pathlib
@@ -13,7 +14,7 @@ from modules.daisy_scrutinizer import DaisyScrutinizer
 
 
 def get_version_num():
-    return "v. 0.9.2.2."
+    return "v. 0.9.3"
 
 
 def get_args(args):
@@ -110,45 +111,40 @@ class CeliaDTBValidator:
         if target_text_encoding == "":
             target_text_encoding = "utf-8"
         try:
-            target_kbps = int(ConfigGetter.get_configs("target_kbps"))
-        except:
-            target_kbps = 48
-        try:
             lufs_min = int(ConfigGetter.get_configs("lufs_min"))
         except:
+            print("  !Error while reading lufs_min from config.txt, using default value!")
             lufs_min = -20
         try:
             lufs_max = int(ConfigGetter.get_configs("lufs_max"))
         except:
+            print("  !Error while reading lufs_max from config.txt, using default value!")
             lufs_max = -17
         try:
             pkdb_min = int(ConfigGetter.get_configs("pkdb_min"))
         except:
+            print("  !Error while reading pkdb_min from config.txt, using default value!")
             pkdb_min = -2
         try:
             pkdb_max = int(ConfigGetter.get_configs("pkdb_max"))
         except:
+            print("  !Error while reading pkdb_max from config.txt, using default value!")
             pkdb_max = 0
         try:
             tpkdb_min = int(ConfigGetter.get_configs("tpkdb_min"))
         except:
+            print("  !Error while reading tpkdb_min from config.txt, using default value!")
             tpkdb_min = -2
         try:
             tpkdb_max = int(ConfigGetter.get_configs("tpkdb_max"))
         except:
+            print("  !Error while reading tpkdb_max from config.txt, using default value!")
             tpkdb_max = 0
         try:
             snr_min = int(ConfigGetter.get_configs("snr_min"))
         except:
+            print("  !Error while reading snr_min from config.txt, using default value!")
             snr_min = 45
-        try:
-            kbps_min = int(ConfigGetter.get_configs("kbps_min"))
-        except:
-            kbps_min = 32
-        try:
-            kbps_max = int(ConfigGetter.get_configs("kbps_max"))
-        except:
-            kbps_max = 48
 
         time_stamp = datetime.datetime.today().strftime('%Y-%m-%d-%H%M%S')
         report_out_path = pathlib.Path.joinpath(pathlib.Path(report_location), audiobook.dc_identifier 
@@ -286,7 +282,8 @@ class CeliaDTBValidator:
 
         ReportGenerator.write_report(audiobook, report_out_path, critical_errors, errors, warnings)
 
-        webbrowser.open(str(report_out_path))
+        if ConfigGetter.get_configs("open_reports_after_validation") == "1":
+            webbrowser.open(str(report_out_path))
 
         skip_audio_encoding = False
         if not ConfigGetter.get_configs("encode_audio") == "1":
@@ -321,12 +318,16 @@ class CeliaDTBValidator:
 # MAIN...
 if __name__ == "__main__":
 
-    if which("sox") is None:
-        input("sox not found from PATH! Please install sox before running validator.")
-        sys.exit()
-    if which("ffmpeg") is None:
-        input("ffmpeg not found from PATH! Please install ffmpeg before running validator.")
-        sys.exit()
+
+    if ConfigGetter.get_configs("audio_validation") == "1":
+        if not PathChecker.check_audio_ext_paths():
+            input("FFmpeg not found. Please install FFmpeg and/or define FFmpeg path in config.txt")
+            sys.exit()
+
+    if ConfigGetter.get_configs("daisy_validation") == "1":
+        if not PathChecker.check_daisy_ext_paths():
+            input("Pipeline 1 or java not found. Please install Pipeline 1 and java and/or define Pipeline 1 and java paths in config.txt")
+            sys.exit()
 
     arguments = get_args(sys.argv)
 

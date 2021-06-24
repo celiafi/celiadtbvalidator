@@ -7,9 +7,10 @@ def generate_configs():
     config_file = pathlib.Path.joinpath(pathlib.Path(__file__).parents[1], "config.txt")
     new_config_file = open(str(config_file), "x")
     configs = ["# GENERAL SETTINGS",
-               "# To disable audio or daisy validation set value to 0.",
+               "# To disable set value to 0, to enable set to 1.",
                "audio_validation = 1",
                "daisy_validation = 1",
+               "open_reports_after_validation = 1",
                "",
                "",
                "# AUDIO ENCODING SETTINGS",
@@ -55,13 +56,10 @@ def generate_configs():
                "max_volume_level_flux = 1",
                "",
                "",
-               "# DAISY PIPELINE SETTINGS (NOTE: IF YOU DON'T KNOW WHAT YOU ARE DOING, PLEASE DO NOT CHANGE THESE "
-               "VALUES!)",
-               "# Pipeline paths.",
+               "# PATHS",
                r"pipeline_path = C:\Program Files (x86)\DAISY Pipeline\plugins\org.daisy.pipeline_1.0.12",
-               r"pipeline_validator_cmd = .\\pipeline-cli.bat scripts\\verify\\Daisy202DTBValidator.taskScript",
-               r"pipeline_audioencoder_cmd = .\\pipeline-cli.bat "
-               r"scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript",
+               "ffmpeg_path = ffmpeg",
+               "java_path = java",
                "",
                ""]
     for conf in configs:
