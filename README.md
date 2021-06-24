@@ -39,23 +39,15 @@ Celia DTB Validator is designed to work on Windows 10, using Python 3.8.7. (newe
 For audio and Daisy validation it is required that following programs are also installed:
 - Python 3.8.7 (or newer)
 - FFmpeg 4.4 (or newer)
+   - FFmpeg might also require aditional modules tobe installed in order for them to be able to work with files in mp3 format (or flac, ogg, ...).  
+     Mp3 support has not been tested while development as the program is primarily meant as validating wav files.  
+     Please refer to documentation provided by FFmpeg for more information.
 - Daisy Pipeline 1 v. 20111215
+   - If validation is done for audio only, Daisy Pipeline is not required.
 - Java JRE 11 (should install automatically when installing Pipeline?) (note: in test environment we use AdoptOpenJDK Java JRE 8, and it also does work)
+   - If validation is done for audio only, Java is not required.
 
-Other version might also work, but have not been tested and might not work.
-
-If validation is done for audio only, Daisy Pipeline is not required.
-
-Please refer to the documentation of the programs mentioned for more information
-on installation and usage.
-
-The script expects FFmpeg to be in PATH, ie. so that it works with command 'ffmpeg', so evironment variable needs to be set for it.
-
-It is also to be noted that FFmpeg might also require aditional modules to
-be installed in order for them to be able to work with files in mp3 format (or flac, ogg, ...). Mp3 support has not been tested while development as the program is primarily meant as validating wav files. Please refer to documentation provided by FFmpeg for more information.
-
-Also should be noted, that pipeline uses Java, so that must also be installed,
-if validating Daisy books. Pipeline also does expect Java to be in in PATH, ie. so that it works with command 'java', so evironment variable needs to be set for it also. Pipeline 1 projects documentation recommends Java 11, but in development and testing environment, we have used Java 8, and it also does seem to work ok (atleast now in may 2021).
+Please refer to the documentation of the programs mentioned for more information on installation and usage.
 
 ### Downloads
 
