@@ -49,6 +49,10 @@ For audio and Daisy validation it is required that following programs are also i
 
 Please refer to the documentation of the programs mentioned for more information on installation and usage.
 
+### Releases
+
+Information on releases and changes made can be found from from [NEWS.md](./NEWS.md)
+
 ### Downloads
 
 Newest version of Celia DTB Validator can be downloaded from github as a zip:
