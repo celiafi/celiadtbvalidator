@@ -30,8 +30,11 @@ class AudioScrutinizer:
         kbps = 0.0
 
         # general stats with ffmpeg
-        ffmpeg_cmd_lufs = 'cmd /c ffmpeg -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
-        ffmpeg_cmd_stats = 'cmd /c ffmpeg -i "' + f_path + '" -af astats -f null - 2>&1'
+        ffmpeg_path = str(pathlib.Path(ConfigGetter.get_configs("ffmpeg_path")))
+        print("FFmpeg at " + ffmpeg_path)
+        ffmpeg_cmd_lufs = 'cmd /c ""' + ffmpeg_path + '" -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1"'
+        ffmpeg_cmd_stats = 'cmd /c ""' + ffmpeg_path + '" -i "' + f_path + '" -af astats -f null - 2>&1"'
+        #input(ffmpeg_cmd_stats)
 
         raw_output_lufs = ExternalProgramCaller.run_external_command(ffmpeg_cmd_lufs).splitlines()
         raw_output_stats = ExternalProgramCaller.run_external_command(ffmpeg_cmd_stats).splitlines()
@@ -40,6 +43,7 @@ class AudioScrutinizer:
         rms_peak_db = 0.0
 
         for line in reversed(raw_output_lufs):
+            #input(line)
             if re.search(r".+Peak", line):
                 line = re.sub(r".+Peak: *", "", line)
                 tpkdb = float(re.sub(r" dBFS", "", line))
@@ -102,7 +106,9 @@ class AudioScrutinizer:
         else:
             start_silence_max = start_silence_max.strip()
                 
-        start_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -ss 00:00:00 -nostats -i "' + f_path + '" -to 00:0' + start_silence_max + ' -filter_complex ebur128=peak=true -f null - 2>&1'
+        
+        ffmpeg_path = str(pathlib.Path(ConfigGetter.get_configs("ffmpeg_path")))
+        start_silence_max_ffmpeg_cmd = 'cmd /c ""' + ffmpeg_path + '" -ss 00:00:00 -nostats -i "' + f_path + '" -to 00:0' + start_silence_max + ' -filter_complex ebur128=peak=true -f null - 2>&1"'
         
         raw_output = ExternalProgramCaller.run_external_command(start_silence_max_ffmpeg_cmd).splitlines()
         if get_peak(raw_output) < silence_db:
@@ -117,7 +123,7 @@ class AudioScrutinizer:
         else:
             end_silence_min = end_silence_min.strip()
 
-        end_silence_min_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_min + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+        end_silence_min_ffmpeg_cmd = 'cmd /c ""' + ffmpeg_path + '" -sseof -00:0' + end_silence_min + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1"'
 
         raw_output = ExternalProgramCaller.run_external_command(end_silence_min_ffmpeg_cmd).splitlines()
 
@@ -133,7 +139,7 @@ class AudioScrutinizer:
         else:
             end_silence_max = end_silence_max.strip()
 
-        end_silence_max_ffmpeg_cmd = 'cmd /c ffmpeg -sseof -00:0' + end_silence_max + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1'
+        end_silence_max_ffmpeg_cmd = 'cmd /c ""' + ffmpeg_path + '" -sseof -00:0' + end_silence_max + ' -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1"'
 
         raw_output = ExternalProgramCaller.run_external_command(end_silence_max_ffmpeg_cmd).splitlines()
 
@@ -150,7 +156,7 @@ class AudioScrutinizer:
             mid_silence_max = "7"
         
         mid_silences = []
-        mid_silence_cmd = 'cmd /c ffmpeg -nostats -i "' \
+        mid_silence_cmd = 'cmd /c ""' + ffmpeg_path + '" -nostats -i "' \
                           + f_path + '" -af silencedetect=noise=' + str(silence_db) + 'dB:d=' \
                           + mid_silence_max + ' -f null - 2>&1 '
 
