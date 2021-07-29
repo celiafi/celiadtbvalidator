@@ -4,6 +4,7 @@ run-tests.ps1
 bundle/
 custom_python_path.txt
 ext/
+todo.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

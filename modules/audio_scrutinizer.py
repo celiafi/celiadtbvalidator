@@ -30,7 +30,9 @@ class AudioScrutinizer:
         kbps = 0.0
 
         # general stats with ffmpeg
-        ffmpeg_path = str(pathlib.Path(ConfigGetter.get_configs("ffmpeg_path")))
+        ffmpeg_path = ConfigGetter.get_configs("ffmpeg_path")
+        if ffmpeg_path != "ffmpeg":
+            ffmpeg_path = str(pathlib.Path(ffmpeg_path).absolute())
         print("FFmpeg at " + ffmpeg_path)
         ffmpeg_cmd_lufs = 'cmd /c ""' + ffmpeg_path + '" -nostats -i "' + f_path + '" -filter_complex ebur128=peak=true -f null - 2>&1"'
         ffmpeg_cmd_stats = 'cmd /c ""' + ffmpeg_path + '" -i "' + f_path + '" -af astats -f null - 2>&1"'
