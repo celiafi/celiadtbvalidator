@@ -2,6 +2,7 @@ tests/
 ffmpeg-test.py
 run-tests.ps1
 bundle/
+custom_python_path.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
