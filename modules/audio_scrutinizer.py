@@ -109,7 +109,11 @@ class AudioScrutinizer:
             start_silence_max = start_silence_max.strip()
                 
         
-        ffmpeg_path = str(pathlib.Path(ConfigGetter.get_configs("ffmpeg_path")))
+        #ffmpeg_path = str(pathlib.Path(ConfigGetter.get_configs("ffmpeg_path")))
+        ffmpeg_path = ConfigGetter.get_configs("ffmpeg_path")
+        if ffmpeg_path != "ffmpeg":
+            ffmpeg_path = str(pathlib.Path(ffmpeg_path).absolute())
+        print("FFmpeg at " + ffmpeg_path)
         start_silence_max_ffmpeg_cmd = 'cmd /c ""' + ffmpeg_path + '" -ss 00:00:00 -nostats -i "' + f_path + '" -to 00:0' + start_silence_max + ' -filter_complex ebur128=peak=true -f null - 2>&1"'
         
         raw_output = ExternalProgramCaller.run_external_command(start_silence_max_ffmpeg_cmd).splitlines()
