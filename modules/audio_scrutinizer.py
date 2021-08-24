@@ -164,12 +164,13 @@ class AudioScrutinizer:
         mid_silences = []
         mid_silence_cmd = 'cmd /c ""' + ffmpeg_path + '" -nostats -i "' \
                           + f_path + '" -af silencedetect=noise=' + str(silence_db) + 'dB:d=' \
-                          + mid_silence_max + ' -f null - 2>&1 '
+                          + mid_silence_max + ' -f null - 2>&1 "'
+        #print(mid_silence_cmd)
 
         raw_output = ExternalProgramCaller.run_external_command(mid_silence_cmd).splitlines()
 
         for line in raw_output:
-            # print(line)
+            #print(line)
             if re.search(r".+silence_end.+", line):
                 line = re.sub(r".+silence_end: ", r"", line)
                 pieces = line.split(" | ")
