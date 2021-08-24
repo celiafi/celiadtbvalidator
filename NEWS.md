@@ -1,3 +1,12 @@
+# Changes in release 0.9.3.1
+
+## Fixes
+
+- **FIX** Fixed bug where default versions of external programs were used even when custom 
+path was defined in config.txt
+
+[Download version 0.9.3.1](https://github.com/celiafi/celiadtbvalidator/releases/tag/v.0.9.3.1)
+
 # Changes in release 0.9.3.
 
 ## New Features
