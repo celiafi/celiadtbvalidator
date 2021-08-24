@@ -78,7 +78,7 @@ class DaisyScrutinizer:
         errors = []
         warnings = []
 
-        pipeline_path = pathlib.Path(ConfigGetter.get_configs("pipeline_path"))
+        pipeline_path = pathlib.Path(ConfigGetter.get_configs("pipeline_path")).absolute()
         if not pipeline_path.exists():
             print("Daisy validator not found! Skipping validation!")
             errors.append("Validator not found at location " + str(pipeline_path) + "! CAN NOT VALIDATE DAISY!")
@@ -167,7 +167,7 @@ class DaisyScrutinizer:
     def encode_audio(ncc, output_path):
         # pipeline-cli.bat scripts\modify_improve\dtb\DTBAudioEncoder.taskScript "--input=path\ncc.html"
         # "--output=outpath" "--bitrate=48"
-        pipeline_path = pathlib.Path(ConfigGetter.get_configs("pipeline_path"))
+        pipeline_path = pathlib.Path(ConfigGetter.get_configs("pipeline_path")).absolute()
         if pipeline_path.exists():
             cmd_encode = ".\\pipeline-cli.bat scripts\\modify_improve\\dtb\\DTBAudioEncoder.taskScript"
 

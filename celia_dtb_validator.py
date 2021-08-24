@@ -321,12 +321,18 @@ if __name__ == "__main__":
 
     if ConfigGetter.get_configs("audio_validation") == "1":
         if not PathChecker.check_audio_ext_paths():
-            input("FFmpeg not found. Please install FFmpeg and/or define FFmpeg path in config.txt")
+            ffmpeg_path_conf = ConfigGetter.get_configs("ffmpeg_path")
+            if ffmpeg_path_conf != "ffmpeg":
+                ffmpeg_path_conf = str(pathlib.Path(ffmpeg_path_conf).absolute())
+                input("FFmpeg not found at '" + ffmpeg_path_conf + "'. Please install FFmpeg and/or define FFmpeg path in config.txt")
+            else:
+                input("FFmpeg not found. Please install FFmpeg and/or define FFmpeg path in config.txt")
             sys.exit()
 
     if ConfigGetter.get_configs("daisy_validation") == "1":
         if not PathChecker.check_daisy_ext_paths():
-            input("Pipeline 1 or java not found. Please install Pipeline 1 and java and/or define Pipeline 1 and java paths in config.txt")
+            pipeline_path_conf = str(pathlib.Path(ConfigGetter.get_configs("pipeline_path"), "pipeline-cli.bat").absolute())
+            input("Pipeline 1 not found at '" + pipeline_path_conf + "'. Please install Pipeline 1 and/or define Pipeline 1 path in config.txt")
             sys.exit()
 
     arguments = get_args(sys.argv)
